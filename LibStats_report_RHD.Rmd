@@ -3,7 +3,7 @@ title: "Departmental Statistics Report"
 output:
   html_document: default
 params:
-  fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Processing/LibStats_R/Reports/data"
+  fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
   periodStart: "2018-01-01 00:00:00"
   periodEnd: "2018-05-30 11:59:59"
 ---

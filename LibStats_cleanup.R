@@ -7,7 +7,7 @@ library(lubridate)
 ## READ IN LIBSTATS CSV FILE
 
   ## Set file path and input file name -- CHANGE AS NEEDED (direction of slashes matters)**
-  fpath <- "C:/Users/briney/Documents/JobDocs/LibStats/Processing/LibStats_R/Reports/data"
+  fpath <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
   fname <- "rawData.csv"
   
   

@@ -3,8 +3,8 @@ library(rmarkdown)
 
 ## CHANGE THESE PARAMETERS AS NECESSARY (KEEP DATE/TIME FORMATTING AS YYYY-MM-DD HH:MM:SS)
 
-f_in <- "C:/Users/briney/Documents/JobDocs/LibStats/Processing/LibStats_R/Reports/data"
-f_out <- "C:/Users/briney/Documents/JobDocs/LibStats/Processing/LibStats_R/Reports/reports"
+f_in <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
+f_out <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/reports"
 period_Start <- "2018-01-01 00:00:00"
 period_End <- "2018-05-30 11:59:59"
 
