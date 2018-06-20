@@ -1,0 +1,103 @@
+---
+title: "Departmental Statistics Report"
+output:
+  html_document: default
+params:
+  fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Processing/LibStats_R/R_Scripts/data"
+  periodStart: "2018-01-01 00:00:00"
+  periodEnd: "2018-05-30 11:59:59"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(knitr)
+
+  pStart <-  ymd_hms(params$periodStart)
+  pEnd <-  ymd_hms(params$periodEnd)
+
+  
+  ## Load transaction data
+  
+  finput <- paste(params$fpath, "WD.csv", sep="/")
+  Trans_all <- read_csv(finput)
+  
+  Trans <- filter(Trans_all, Trans_all$WDDateTime>=pStart & 
+                    Trans_all$WDDateTime<=pEnd)
+  Trans <- add_column(Trans, Week=week(Trans$WDDateTime))
+```
+
+### Welcome Desk
+
+### Time period: `r pStart` to `r pEnd`
+
+## Transactions
+
+__Total transactions = `r count(Trans)`__
+
+### Staff Transactions
+
+```{r Tparams}
+  TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
+    select(StaffName, total) %>% unique() %>% arrange(desc(total))
+  
+  kable(TstaffName, format="html")
+
+```
+
+### Transaction User Status
+
+```{r TuserType}
+  TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
+    select(UserStatus, total) %>% unique() %>% arrange(desc(total))
+  
+  ggplot(data=TuserTypes) +
+    geom_col(mapping=aes(x=UserStatus, y=total)) +
+    labs(x="User Status", y="Number of Transactions")
+```
+
+### Transaction Type
+
+_Transactions can be coded as multiple types, meaning the sum of the totals
+in each category may excede the total number of transactions_
+
+```{r Ttype}
+  Ttype_type <- bind_rows(tibble(Ttype="Directional"), tibble(Ttype="Informational"),
+                              tibble(Ttype="Referral"), tibble(Ttype="Reference"))
+  Ttype_total <- bind_rows(count(filter(Trans,Directional==TRUE)), 
+                               count(filter(Trans, Informational==TRUE)),
+                               count(filter(Trans, Referral==TRUE)),
+                               count(filter(Trans, Reference==TRUE)))
+  Ttype <- bind_cols(Ttype_type, Ttype_total)
+  
+  ggplot(data=Ttype) +
+    geom_col(mapping=aes(x=Ttype, y=n)) +
+    labs(x="Type", y="Number of Transactions")
+```
+
+### Transaction Format
+
+```{r Tform}
+  Tform <- group_by(Trans, Format) %>% mutate(total=n()) %>% 
+    select(Format, total) %>% unique() %>% 
+    filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
+    arrange(desc(total))
+
+  ggplot(data=Tform) +
+    geom_col(mapping=aes(x=Format, y=total)) +
+    labs(x="Format", y="Number of Transactions")
+```
+
+### Transactions by Week
+
+```{r TweekNum}
+  TweekNum <- group_by(Trans, Week) %>% mutate(total=n()) %>% 
+    select(Week, total) %>% unique() %>% arrange(Week)
+
+  ggplot(data=TweekNum) +
+    geom_point(mapping=aes(x=Week, y=total)) +
+    geom_line(mapping=aes(x=Week, y=total)) +
+    labs(x="Week Number", y="Number of Transactions")
+```
