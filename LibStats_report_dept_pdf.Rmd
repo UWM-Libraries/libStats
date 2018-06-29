@@ -6,7 +6,9 @@ params:
   periodEnd: 2018-05-30 11:59:59
   periodStart: 2018-01-01 00:00:00
 output:
-  html_document: default
+  pdf_document: 
+    fig_width: 7
+    fig_height: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -63,7 +65,7 @@ __Total `r depart` consultations = `r count(Cons)`__
   CstaffName <- group_by(Cons, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(CstaffName, format="html")
+  kable(CstaffName, format="latex")
 ```
 
 ### Consultation User Status
@@ -86,7 +88,7 @@ _Departments listed if they had 2 or more consultations_
     select(UserDept, total) %>% unique() %>% 
     filter(total > 1 & UserDept != "NA") %>% arrange(desc(total))
 
-  kable(CuserDept, format="html")
+  kable(CuserDept, format="latex")
 ```
 
 ### Consultation Format
@@ -123,7 +125,7 @@ __Total `r depart` presentations = `r count(Pres)`__
   PstaffName <- group_by(Pres, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(PstaffName, format="html")
+  kable(PstaffName, format="latex")
 ```
 
 ### Presentation User Status
@@ -154,7 +156,7 @@ _Departments listed if they had 2 or more presentations_
     select(Department, total) %>% unique() %>% 
     filter(total > 1 & Department != "NA") %>% arrange(desc(total))
 
-  kable(PuserDept, format="html")
+  kable(PuserDept, format="latex")
 ```
 
 <!-- ### Presentation User Count
@@ -215,7 +217,7 @@ __Total `r depart` transactions = `r count(Trans)`__
   TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(TstaffName, format="html")
+  kable(TstaffName, format="latex")
 
 ```
 
@@ -239,7 +241,7 @@ _Departments listed if they had 2 or more transactions_
     select(Department, total) %>% unique() %>% 
     filter(total > 1  & Department != "NA") %>% arrange(desc(total))
 
-  kable(TuserDept, format="html")
+  kable(TuserDept, format="latex")
   
 ```
 
