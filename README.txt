@@ -11,6 +11,10 @@ How to run this code from scratch:
 	Setup
 		Install R
 		Install RStudio
+		
+		To create pdf reports
+			Download MiKTeX (you need the complete version not basic) from https://miktex.org/download
+			Installation requires 2 steps: downloading files to a specified location on your computer, then installing from those files to another location
 	
 		Open RStudio
 			Type in console "install.packages("tidyverse")" and hit return
