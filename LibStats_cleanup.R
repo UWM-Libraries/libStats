@@ -41,30 +41,17 @@ library(lubridate)
   
 
 ## BUILD SUBTABLES
-  
+
 ## Build Events table
-  Events <- tibble(EventID=libStats$EventID, EntryDate=libStats$StartDate, StaffName=str_to_lower(libStats$StaffName), 
-                 StaffDept=libStats$StaffDept, ServiceType=libStats$ServiceType)
+#  Events <- tibble(EventID=libStats$EventID, EntryDate=libStats$StartDate, StaffName=str_to_lower(libStats$StaffName), 
+#                 StaffDept=libStats$StaffDept, ServiceType=libStats$ServiceType)
   
-  ## Write out Events
-  foutput <- paste(fpath, "Events.csv", sep="/")
-  write_csv(Events, foutput)
+#  ## Write out Events
+#  foutput <- paste(fpath, "Events.csv", sep="/")
+#  write_csv(Events, foutput)
 
   
-  
 
-## Build AGSL table
-  AGSL_unfiltered <- tibble(EventID=libStats$EventID, StaffName=str_to_lower(libStats$StaffName),
-                            TransCollection=libStats$AGSLTransColl, ConsCollection=libStats$AGSLConsColl)
-  AGSL <- filter(AGSL_unfiltered, TransCollection!="" | ConsCollection!="")
-  
-  ## Write out AGSL
-  foutput <- paste(fpath, "AGSL.csv", sep="/")
-  write_csv(AGSL, foutput)
-
-  
-  
-  
 ## Clean and build Cons table
   libCons <- filter(libStats, ServiceType=="consultation")
 
@@ -255,6 +242,40 @@ library(lubridate)
   ## Write out WD
   foutput <- paste(fpath, "WD.csv", sep="/")
   write_csv(WD, foutput)
+  
+  
+  
+
+ ## Build AGSL table
+  AGSL_Cons <- tibble(Date=libStats$ConsDate, StaffName=libStats$StaffName, ServiceType="consultation", Collection=libStats$AGSLConsColl)
+  AGSL_Cons <- filter(AGSL_Cons, Collection != "")
+
+  for(i in 1:dim(AGSL_Cons)[1]) {
+    if(!is.na(AGSL_Cons$Date[i])) AGSL_Cons$Date[i] <- as.character(mdy(AGSL_Cons$Date[i]))
+  }
+
+  
+  AGSL_Trans <- tibble(Date=libStats$TransDate, Date_old=libStats$TransDate_old,  Date_start=libStats$StartDate, Time=libStats$TransTime,
+                       StaffName=libStats$StaffName, ServiceType="transaction", Collection=libStats$AGSLTransColl)
+  AGSL_Trans <- filter(AGSL_Trans, Collection != "")
+  
+  for(i in 1:dim(AGSL_Trans)[1]) {
+    if(!is.na(AGSL_Trans$Date_old[i]) & str_detect(AGSL_Trans$Date_old[i], "Just now")) {
+      AGSL_Trans$Date[i] <- as.character(AGSL_Trans$Date_start[i])
+    } 
+    else {
+      if(!is.na(AGSL_Trans$Time[i]) & !str_detect(AGSL_Trans$Time[i], ":")) AGSL_Trans$Time[i] <- "12:00 AM"
+      AGSL_Trans$Date[i] <- as.character(mdy_hm(paste(AGSL_Trans$Date[i], AGSL_Trans$Time[i], sep=" ")))
+    }
+  }
+  
+  AGSL_Trans <- select(AGSL_Trans, Date, StaffName, ServiceType, Collection)
+  AGSL <- bind_rows(AGSL_Cons, AGSL_Trans) %>% arrange(Date)
+  
+  ## Write out AGSL
+  foutput <- paste(fpath, "AGSL.csv", sep="/")
+  write_csv(AGSL, foutput)  
+  
   
   
   
