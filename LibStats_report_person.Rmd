@@ -62,7 +62,7 @@ library(knitr)
 
 __Total `r pers` consultations = `r count(Cons)`__
 
-### Consultation User Status
+### Consultation Patron Status
 
 ```{r CuserType}
   CuserTypes <- group_by(Cons, UserStatus) %>% mutate(total=n()) %>% 
@@ -74,11 +74,21 @@ __Total `r pers` consultations = `r count(Cons)`__
     labs(x="User Status", y="Number of Consultations")
 ```
 
-### Consultation User Departments
+### Consultation Courses
+
+```{r Cinstruction}
+  Cinstruction <- filter(Cons, !is.na(Course)) %>% 
+    group_by(Department, Course) %>% mutate(total=n()) %>% 
+    select(Department, Course, total) %>% unique() %>% arrange(Department, Course)
+
+  kable(Cinstruction, format="latex")
+```
+
+### Patron Departments for non-Course Consultations
 
 ```{r CuserDept}
-  CuserDept <- group_by(Cons, UserDept) %>% mutate(total=n()) %>% 
-    select(UserDept, total) %>% unique() %>% filter(UserDept != "NA") %>% arrange(desc(total))
+  CuserDept <- filter(Cons, is.na(Course)) %>% group_by(UserDept) %>% mutate(total=n()) %>% 
+    select(UserDept, total) %>% unique() %>% filter(UserDept != "NA") %>% arrange(desc(total), UserDept)
 
   kable(CuserDept, format="latex")
   
@@ -96,7 +106,6 @@ __Total `r pers` consultations = `r count(Cons)`__
     labs(x="Format", y="Number of Consultations")
 ```
 
-
 ### Consultation Notes
 
 ```{r Cnotes}
@@ -112,7 +121,7 @@ __Total `r pers` consultations = `r count(Cons)`__
 __Total `r pers` presentations = `r count(Pres)`__
 
 
-### Presentation User Status
+### Presentation Patron Status
 
 ```{r PuserType}
   PuserType_type <- bind_rows(tibble(UserType="Undergraduates"), tibble(UserType="Graduates"),
@@ -132,15 +141,15 @@ __Total `r pers` presentations = `r count(Pres)`__
     labs(x="User Type", y="Number of Presentations")
 ```
 
-<!-- ### Presentation User Departments
+### Presentation Courses
 
-```{r PuserDept}
-  PuserDept <- group_by(Pres, Department) %>% mutate(total=n()) %>% 
-    select(Department, total) %>% unique() %>% filter(Department != "NA") %>% arrange(desc(total))
+```{r Pinstruction}
+  Pinstruction <- group_by(Pres, Department, Course) %>% mutate(total=n()) %>% 
+    select(Department, Course, total) %>% unique() %>% filter(Department != "NA") %>%
+    arrange(Department, Course)
 
-  kable(PuserDept, format="latex")
+  kable(Pinstruction, format="latex")
 ```
--->
 
 ### Presentation Type
 
@@ -152,16 +161,6 @@ __Total `r pers` presentations = `r count(Pres)`__
     geom_col() +
     geom_text() +
     labs(x="Presentation Type", y="Number of Presentations")
-```
-
-### Instruction Courses
-
-```{r Pinstruction}
-  Pinstruction <- filter(Pres, PresType=="instruction" & !is.na(Course)) %>% 
-    group_by(Department, Course) %>% mutate(total=n()) %>% 
-    select(Department, Course, total) %>% unique() %>% arrange(desc(total))
-
-  kable(Pinstruction, format="latex")
 ```
 
 ### Presentation Format
@@ -190,7 +189,7 @@ __Total `r pers` presentations = `r count(Pres)`__
 
 __Total `r pers` transactions = `r count(Trans)`__
 
-### Transaction User Status
+### Transaction Patron Status
 
 ```{r TuserType}
   TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
@@ -202,13 +201,14 @@ __Total `r pers` transactions = `r count(Trans)`__
     labs(x="User Status", y="Number of Transactions")
 ```
 
-### Transaction User Departments
+### Transaction Courses
 
-```{r TuserDept}
-  TuserDept <- group_by(Trans, Department) %>% mutate(total=n()) %>% 
-    select(Department, total) %>% unique() %>% filter(Department != "NA") %>% arrange(desc(total))
+```{r Tinstruction}
+  Tinstruction <- group_by(Trans, Department, Course) %>% mutate(total=n()) %>% 
+    select(Department, Course, total) %>% unique() %>% filter(Department != "NA") %>%
+    arrange(Department, Course)
 
-  kable(TuserDept, format="latex")
+  kable(Tinstruction, format="latex")
   
 ```
 
