@@ -1,11 +1,13 @@
 ---
 title: "Departmental Statistics Report"
-output:
-  html_document: default
 params:
   fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
   periodStart: "2018-01-01 00:00:00"
-  periodEnd: "2018-05-30 11:59:59"
+  periodEnd: "2018-05-30 23:59:59"
+output:
+  pdf_document: 
+    fig_width: 7
+    fig_height: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -43,7 +45,7 @@ __Total transactions = `r count(Trans)`__
   TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(TstaffName, format="html")
+  kable(TstaffName, format="latex")
 
 ```
 
@@ -53,8 +55,9 @@ __Total transactions = `r count(Trans)`__
   TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
-  ggplot(data=TuserTypes) +
-    geom_col(mapping=aes(x=UserStatus, y=total)) +
+  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="User Status", y="Number of Transactions")
 ```
 
@@ -72,8 +75,9 @@ in each category may excede the total number of transactions_
                                count(filter(Trans, Reference==TRUE)))
   Ttype <- bind_cols(Ttype_type, Ttype_total)
   
-  ggplot(data=Ttype) +
-    geom_col(mapping=aes(x=Ttype, y=n)) +
+  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
+    geom_col() +
+    geom_text() +
     labs(x="Type", y="Number of Transactions")
 ```
 
@@ -85,19 +89,20 @@ in each category may excede the total number of transactions_
     filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
     arrange(desc(total))
 
-  ggplot(data=Tform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="Format", y="Number of Transactions")
 ```
 
-### Transactions by Week
+### Transactions by Week of the Year
 
 ```{r TweekNum}
   TweekNum <- group_by(Trans, Week) %>% mutate(total=n()) %>% 
     select(Week, total) %>% unique() %>% arrange(Week)
 
-  ggplot(data=TweekNum) +
-    geom_point(mapping=aes(x=Week, y=total)) +
-    geom_line(mapping=aes(x=Week, y=total)) +
-    labs(x="Week Number", y="Number of Transactions")
+  ggplot(data=TweekNum, mapping=aes(x=Week, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Week of the Year", y="Number of Transactions")
 ```
