@@ -9,46 +9,55 @@ period_Start <- "2018-01-01 00:00:00"
 period_End <- "2018-05-30 23:59:59"
 
 
-## Edit dates to add to file name
+## Edit strings to add to file name
 
 startDate <- paste(substr(period_Start, 1,4),substr(period_Start, 6,7),substr(period_Start, 9,10),sep="")
 endDate <- paste(substr(period_End, 1,4),substr(period_End, 6,7),substr(period_End, 9,10),sep="")
 
+fname1 <- paste(f_out, "/", "Statbot_", sep="")
+fname2 <- paste("_", startDate, "to", endDate, sep="")
+
 
 ## Create department reports
 
-fname <- paste(f_out, "/", startDate, "to", endDate, "_Statbot_dept_", sep="")
 deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library", 
                    "Digital Humanities Lab", "Special Collections", "User Services")
 deptFName <- tibble("AGSL", "Archives", "CurriculumMusic", 
                     "DHLab", "SpecialCollections", "UserServices")
 
-for (i in 1:dim(deptName)) {
-  render("LibStats_report_dept.Rmd", params=list(
-    fpath=f_in, periodStart=period_Start, periodEnd=period_End, dept=deptName[i]),
-    output_file = paste(fname, deptFName[i], ".html", sep=""))
+for (i in 1:dim(deptName)[2]) {
+  render("LibStats_report_dept_pdf.Rmd", params=list(
+    fpath=f_in, periodStart=period_Start, periodEnd=period_End, dept=as.character(deptName[i])),
+    output_file = paste(fname1, deptFName[i], fname2, ".pdf", sep=""))
 }
+
+
+## Create AGSL collections spreadsheet
+
+AGSLcol <- read_csv(paste(f_in, "AGSL.csv", sep="/"))
+AGSL <- filter(AGSLcol, Date>=period_Start & 
+                 Date<=period_End)
+write_csv(AGSL, paste(fname1, "AGSL", fname2, ".csv", sep=""))
 
 
 # Create RHD and Welcome Desk reports
 
 render("LibStats_report_RHD.Rmd", params=list(
   fpath=f_in, periodStart=period_Start, periodEnd=period_End),
-  output_file = paste(fname, "RHD.html", sep=""))
+  output_file = paste(fname1, "RHD", fname2, ".html", sep=""))
 
 render("LibStats_report_welcome.Rmd", params=list(
   fpath=f_in, periodStart=period_Start, periodEnd=period_End),
-  output_file = paste(fname, "Welcome.html", sep=""))
+  output_file = paste(fname1, "Welcome", fname2, ".html", sep=""))
 
 
 ## Create personal reports
 
-fname <- paste(f_out, "/", startDate, "to", endDate, "_Statbot_person_", sep="")
 persName <- tibble("ganski", "nbungert", "kristinw", "lkopecky", "kbowes", "kabina", 
                    "wadecg", "mathiasm", "thornto4", "briney", "skorolev")
 
-for (i in 1:dim(persName)) {
-  render("LibStats_report_person.Rmd", params=list(
-    fpath=f_in, periodStart=period_Start, periodEnd=period_End, person=persName[i]),
-    output_file = paste(fname, persName[i], ".html", sep=""))
+for (i in 1:dim(persName)[2]) {
+  render("LibStats_report_person_pdf.Rmd", params=list(
+    fpath=f_in, periodStart=period_Start, periodEnd=period_End, person=as.character(persName[i])),
+    output_file = paste(fname1, persName[i], fname2, ".pdf", sep=""))
   }
