@@ -32,7 +32,7 @@ deptFName <- tibble("AGSL", "Archives", "CurriculumMusic",
                     "DHLab", "SpecialCollections", "UserServices")
 
 for (i in 1:dim(deptName)[2]) {
-  render("LibStats_report_dept_pdf.Rmd", params=list(
+  render("LibStats_report_dept.Rmd", params=list(
     fpath=f_in, periodStart=period_Start, periodEnd=period_End, dept=as.character(deptName[i])),
     output_file = paste(fname1, deptFName[i], fname2, ".pdf", sep=""))
 }
@@ -63,7 +63,7 @@ persName <- tibble("ganski", "nbungert", "kristinw", "lkopecky", "kbowes", "kabi
                    "wadecg", "mathiasm", "thornto4", "briney", "skorolev")
 
 for (i in 1:dim(persName)[2]) {
-  render("LibStats_report_person_pdf.Rmd", params=list(
+  render("LibStats_report_person.Rmd", params=list(
     fpath=f_in, periodStart=period_Start, periodEnd=period_End, person=as.character(persName[i])),
     output_file = paste(fname1, persName[i], fname2, ".pdf", sep=""))
 }
