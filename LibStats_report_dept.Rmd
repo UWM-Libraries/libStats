@@ -85,9 +85,9 @@ __Total `r depart` consultations = `r count(Cons)`__
 _Departments listed if they had 2 or more consultations_
 
 ```{r Cinstruction}
-  Cinstruction <- filter(Cons, !is.na(Course)) %>% group_by(UserDept) %>% mutate(total=n()) %>% 
-    select(UserDept, total) %>% unique() %>% 
-    filter(total > 1 & UserDept != "NA") %>% arrange(desc(total), UserDept)
+  Cinstruction <- filter(Cons, !is.na(Course)) %>% group_by(Department) %>% mutate(total=n()) %>% 
+    select(Department, total) %>% unique() %>% 
+    filter(total > 1 & Department != "NA") %>% arrange(desc(total), Department)
 
   kable(Cinstruction, format="latex")
 ```
