@@ -44,11 +44,11 @@ write_csv(AGSL, paste(fname1, "AGSL", fname2, ".csv", sep=""))
 
 render("LibStats_report_RHD.Rmd", params=list(
   fpath=f_in, periodStart=period_Start, periodEnd=period_End),
-  output_file = paste(fname1, "RHD", fname2, ".html", sep=""))
+  output_file = paste(fname1, "RHD", fname2, ".pdf", sep=""))
 
 render("LibStats_report_welcome.Rmd", params=list(
   fpath=f_in, periodStart=period_Start, periodEnd=period_End),
-  output_file = paste(fname1, "Welcome", fname2, ".html", sep=""))
+  output_file = paste(fname1, "Welcome", fname2, ".pdf", sep=""))
 
 
 ## Create personal reports
@@ -60,4 +60,11 @@ for (i in 1:dim(persName)[2]) {
   render("LibStats_report_person_pdf.Rmd", params=list(
     fpath=f_in, periodStart=period_Start, periodEnd=period_End, person=as.character(persName[i])),
     output_file = paste(fname1, persName[i], fname2, ".pdf", sep=""))
-  }
+}
+
+
+## Create stories summary
+
+render("LibStats_report_stories.Rmd", params=list(
+  fpath=f_in, periodStart=period_Start, periodEnd=period_End),
+  output_file = paste(fname1, "Stories", fname2, ".html", sep=""))
