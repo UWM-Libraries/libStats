@@ -1,11 +1,3 @@
-<!--
-## Name: LibStats_report_person.Rmd
-## Created: June 2018 by Kristin Briney
-## Purpose: This Rmarkdown template will create a personal report using cleaned StatBot data.
-##          Staff ePanther ID and date ranges must be specified.
--->
-
-
 ---
 title: "Personal Statistics Report"
 params:
@@ -18,6 +10,13 @@ output:
     fig_width: 7
     fig_height: 3
 ---
+
+<!--
+## Name: LibStats_report_person.Rmd
+## Created: June 2018 by Kristin Briney
+## Purpose: This Rmarkdown template will create a personal report using cleaned StatBot data.
+##          Staff ePanther ID and date ranges must be specified.
+-->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
