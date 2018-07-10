@@ -1,3 +1,11 @@
+<!--
+## Name: LibStats_report_RHD.Rmd
+## Created: June 2018 by Kristin Briney
+## Purpose: This Rmarkdown template will create a summary list of StatBot stories for
+##          a specified date range.
+-->
+
+
 ---
 title: "Statistics Report - Stories Summary"
 params:

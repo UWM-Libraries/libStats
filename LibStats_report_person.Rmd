@@ -1,3 +1,11 @@
+<!--
+## Name: LibStats_report_person.Rmd
+## Created: June 2018 by Kristin Briney
+## Purpose: This Rmarkdown template will create a personal report using cleaned StatBot data.
+##          Staff ePanther ID and date ranges must be specified.
+-->
+
+
 ---
 title: "Personal Statistics Report"
 params:

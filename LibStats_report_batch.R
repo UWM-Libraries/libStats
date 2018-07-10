@@ -1,3 +1,9 @@
+## Name: LibStats_report_batch.R
+## Created: June 2018 by Kristin Briney
+## Purpose: This code takes StatBot data cleaned by LibStats_cleanup.R and automatically creates
+##          reports for a list of library departments and people. Date range must be specified.
+
+
 library(tidyverse)
 library(rmarkdown)
 

@@ -1,3 +1,9 @@
+## Name: LibStats_cleanup.R
+## Created: June 2018 by Kristin Briney
+## Purpose: This code takes the output of UWM Libraries' StatBot data, cleans it, and separates
+##          it into several smaller and condensed spreadsheets
+
+
 #install.packages("tidyverse")
 library(tidyverse)
 library(stringr)

@@ -1,3 +1,11 @@
+<!--
+## Name: LibStats_report_dept.Rmd
+## Created: June 2018 by Kristin Briney
+## Purpose: This Rmarkdown template will create a departmental report using cleaned StatBot data.
+##          Department and date ranges must be specified.
+-->
+
+
 ---
 title: "Departmental Statistics Report"
 params:
