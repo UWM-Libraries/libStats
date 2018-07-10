@@ -3,10 +3,12 @@ title: "Departmental Statistics Report"
 params:
   dept: User Services
   fpath: C:/Users/briney/Documents/JobDocs/LibStats/Reports/data
-  periodEnd: 2018-05-30 11:59:59
   periodStart: 2018-01-01 00:00:00
+  periodEnd: 2018-06-30 23:59:59
 output:
-  html_document: default
+  pdf_document: 
+    fig_width: 7
+    fig_height: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -63,7 +65,7 @@ __Total `r depart` consultations = `r count(Cons)`__
   CstaffName <- group_by(Cons, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(CstaffName, format="html")
+  kable(CstaffName, format="latex")
 ```
 
 ### Consultation User Status
@@ -72,8 +74,9 @@ __Total `r depart` consultations = `r count(Cons)`__
   CuserTypes <- group_by(Cons, UserStatus) %>% mutate(total=n()) %>% 
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
-  ggplot(data=CuserTypes) +
-    geom_col(mapping=aes(x=UserStatus, y=total)) +
+  ggplot(data=CuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="User Status", y="Number of Consultations")
 ```
 
@@ -86,7 +89,7 @@ _Departments listed if they had 2 or more consultations_
     select(UserDept, total) %>% unique() %>% 
     filter(total > 1 & UserDept != "NA") %>% arrange(desc(total))
 
-  kable(CuserDept, format="html")
+  kable(CuserDept, format="latex")
 ```
 
 ### Consultation Format
@@ -95,20 +98,22 @@ _Departments listed if they had 2 or more consultations_
   Cform <- group_by(Cons, Format) %>% mutate(total=n()) %>% 
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Cform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Cform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="Format", y="Number of Consultations")
 ```
 
-### Consultations by Week
+### Consultations by Week of the Year
 
 ```{r CweekNum}
   CweekNum <- group_by(Cons, Week) %>% mutate(total=n()) %>% 
     select(Week, total) %>% unique() %>% arrange(Week)
 
-  ggplot(data=CweekNum) +
-    geom_col(mapping=aes(x=Week, y=total)) +
-    labs(x="Week Number", y="Number of Consultations")
+  ggplot(data=CweekNum, mapping=aes(x=Week, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Week of the Year", y="Number of Consultations")
 ```
 
 
@@ -123,7 +128,7 @@ __Total `r depart` presentations = `r count(Pres)`__
   PstaffName <- group_by(Pres, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(PstaffName, format="html")
+  kable(PstaffName, format="latex")
 ```
 
 ### Presentation User Status
@@ -140,8 +145,9 @@ __Total `r depart` presentations = `r count(Pres)`__
                                count(filter(Pres, NonUWM==TRUE)))
   PuserType <- bind_cols(PuserType_type, PuserType_total)
   
-  ggplot(PuserType) +
-    geom_col(mapping=aes(x=UserType, y=n)) +
+  ggplot(PuserType, mapping=aes(x=UserType, y=n, label=n)) +
+    geom_col() + 
+    geom_text() +
     labs(x="User Type", y="Number of Presentations")
 ```
 
@@ -154,7 +160,7 @@ _Departments listed if they had 2 or more presentations_
     select(Department, total) %>% unique() %>% 
     filter(total > 1 & Department != "NA") %>% arrange(desc(total))
 
-  kable(PuserDept, format="html")
+  kable(PuserDept, format="latex")
 ```
 
 <!-- ### Presentation User Count
@@ -176,8 +182,9 @@ _Departments listed if they had 2 or more presentations_
   Ptype <- group_by(Pres, PresType) %>% mutate(total=n()) %>% 
     select(PresType, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Ptype) +
-    geom_col(mapping=aes(x=PresType, y=total)) +
+  ggplot(data=Ptype, mapping=aes(x=PresType, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="Presentation Type", y="Number of Presentations")
 ```
 
@@ -187,20 +194,22 @@ _Departments listed if they had 2 or more presentations_
   Pform <- group_by(Pres, Format) %>% mutate(total=n()) %>% 
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Pform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Pform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="Format", y="Number of Presentations")
 ```
 
-### Presentations by Week
+### Presentations by Week of the Year
 
 ```{r PweekNum}
   PweekNum <- group_by(Pres, Week) %>% mutate(total=n()) %>% 
     select(Week, total) %>% unique() %>% arrange(Week)
 
-  ggplot(data=PweekNum) +
-    geom_col(mapping=aes(x=Week, y=total)) +
-    labs(x="Week Number", y="Number of Presentations")
+  ggplot(data=PweekNum, mapping=aes(x=Week, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Week of the Year", y="Number of Presentations")
 ```
 
 
@@ -215,7 +224,7 @@ __Total `r depart` transactions = `r count(Trans)`__
   TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
     select(StaffName, total) %>% unique() %>% arrange(desc(total))
   
-  kable(TstaffName, format="html")
+  kable(TstaffName, format="latex")
 
 ```
 
@@ -225,8 +234,9 @@ __Total `r depart` transactions = `r count(Trans)`__
   TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
-  ggplot(data=TuserTypes) +
-    geom_col(mapping=aes(x=UserStatus, y=total)) +
+  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="User Status", y="Number of Transactions")
 ```
 
@@ -239,7 +249,7 @@ _Departments listed if they had 2 or more transactions_
     select(Department, total) %>% unique() %>% 
     filter(total > 1  & Department != "NA") %>% arrange(desc(total))
 
-  kable(TuserDept, format="html")
+  kable(TuserDept, format="latex")
   
 ```
 
@@ -257,8 +267,9 @@ in each category may excede the total number of transactions_
                                count(filter(Trans, Reference==TRUE)))
   Ttype <- bind_cols(Ttype_type, Ttype_total)
   
-  ggplot(data=Ttype) +
-    geom_col(mapping=aes(x=Ttype, y=n)) +
+  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
+    geom_col() + 
+    geom_text() +
     labs(x="Type", y="Number of Transactions")
 ```
 
@@ -270,18 +281,20 @@ in each category may excede the total number of transactions_
     filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
     arrange(desc(total))
 
-  ggplot(data=Tform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
     labs(x="Format", y="Number of Transactions")
 ```
 
-### Transactions by Week
+### Transactions by Week of the Year
 
 ```{r TweekNum}
   TweekNum <- group_by(Trans, Week) %>% mutate(total=n()) %>% 
     select(Week, total) %>% unique() %>% arrange(Week)
 
-  ggplot(data=TweekNum) +
-    geom_col(mapping=aes(x=Week, y=total)) +
-    labs(x="Week Number", y="Number of Transactions")
+  ggplot(data=TweekNum, mapping=aes(x=Week, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Week of the Year", y="Number of Transactions")
 ```

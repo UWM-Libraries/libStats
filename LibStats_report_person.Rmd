@@ -1,12 +1,14 @@
 ---
 title: "Personal Statistics Report"
-output:
-  html_document: default
 params:
   fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
   periodStart: "2018-01-01 00:00:00"
-  periodEnd: "2018-05-30 11:59:59"
+  periodEnd: "2018-05-30 23:59:59"
   person: "briney" 
+output:
+  pdf_document: 
+    fig_width: 7
+    fig_height: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -66,8 +68,9 @@ __Total `r pers` consultations = `r count(Cons)`__
   CuserTypes <- group_by(Cons, UserStatus) %>% mutate(total=n()) %>% 
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
-  ggplot(data=CuserTypes) +
-    geom_col(mapping=aes(x=UserStatus, y=total)) +
+  ggplot(data=CuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="User Status", y="Number of Consultations")
 ```
 
@@ -77,7 +80,7 @@ __Total `r pers` consultations = `r count(Cons)`__
   CuserDept <- group_by(Cons, UserDept) %>% mutate(total=n()) %>% 
     select(UserDept, total) %>% unique() %>% filter(UserDept != "NA") %>% arrange(desc(total))
 
-  kable(CuserDept, format="html")
+  kable(CuserDept, format="latex")
   
 ```
 
@@ -87,9 +90,19 @@ __Total `r pers` consultations = `r count(Cons)`__
   Cform <- group_by(Cons, Format) %>% mutate(total=n()) %>% 
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Cform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Cform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="Format", y="Number of Consultations")
+```
+
+
+### Consultation Notes
+
+```{r Cnotes}
+  Cnotes <- select(Cons, ConsDate, Notes) %>% filter(!is.na(Notes))
+  
+  kable(Cnotes, format="latex")
 ```
 
 
@@ -113,19 +126,21 @@ __Total `r pers` presentations = `r count(Pres)`__
                                count(filter(Pres, NonUWM==TRUE)))
   PuserType <- bind_cols(PuserType_type, PuserType_total)
   
-  ggplot(PuserType) +
-    geom_col(mapping=aes(x=UserType, y=n)) +
+  ggplot(PuserType, mapping=aes(x=UserType, y=n, label=n)) +
+    geom_col() +
+    geom_text() +
     labs(x="User Type", y="Number of Presentations")
 ```
 
-### Presentation User Departments
+<!-- ### Presentation User Departments
 
 ```{r PuserDept}
   PuserDept <- group_by(Pres, Department) %>% mutate(total=n()) %>% 
     select(Department, total) %>% unique() %>% filter(Department != "NA") %>% arrange(desc(total))
 
-  kable(PuserDept, format="html")
+  kable(PuserDept, format="latex")
 ```
+-->
 
 ### Presentation Type
 
@@ -133,8 +148,9 @@ __Total `r pers` presentations = `r count(Pres)`__
   Ptype <- group_by(Pres, PresType) %>% mutate(total=n()) %>% 
     select(PresType, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Ptype) +
-    geom_col(mapping=aes(x=PresType, y=total)) +
+  ggplot(data=Ptype, mapping=aes(x=PresType, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="Presentation Type", y="Number of Presentations")
 ```
 
@@ -145,7 +161,7 @@ __Total `r pers` presentations = `r count(Pres)`__
     group_by(Department, Course) %>% mutate(total=n()) %>% 
     select(Department, Course, total) %>% unique() %>% arrange(desc(total))
 
-  kable(Pinstruction, format="html")
+  kable(Pinstruction, format="latex")
 ```
 
 ### Presentation Format
@@ -154,9 +170,18 @@ __Total `r pers` presentations = `r count(Pres)`__
   Pform <- group_by(Pres, Format) %>% mutate(total=n()) %>% 
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
-  ggplot(data=Pform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Pform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="Format", y="Number of Presentations")
+```
+
+### Presentation Notes
+
+```{r Pnotes}
+  Pnotes <- select(Pres, PresDateTime, Notes) %>% filter(!is.na(Notes))
+  
+  kable(Pnotes, format="latex")
 ```
 
 
@@ -171,8 +196,9 @@ __Total `r pers` transactions = `r count(Trans)`__
   TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
-  ggplot(data=TuserTypes) +
-    geom_col(mapping=aes(x=UserStatus, y=total)) +
+  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="User Status", y="Number of Transactions")
 ```
 
@@ -182,7 +208,7 @@ __Total `r pers` transactions = `r count(Trans)`__
   TuserDept <- group_by(Trans, Department) %>% mutate(total=n()) %>% 
     select(Department, total) %>% unique() %>% filter(Department != "NA") %>% arrange(desc(total))
 
-  kable(TuserDept, format="html")
+  kable(TuserDept, format="latex")
   
 ```
 
@@ -200,8 +226,9 @@ in each category may excede the total number of transactions_
                                count(filter(Trans, Reference==TRUE)))
   Ttype <- bind_cols(Ttype_type, Ttype_total)
   
-  ggplot(data=Ttype) +
-    geom_col(mapping=aes(x=Ttype, y=n)) +
+  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
+    geom_col() +
+    geom_text() +
     labs(x="Type", y="Number of Transactions")
 ```
 
@@ -213,8 +240,17 @@ in each category may excede the total number of transactions_
     filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
     arrange(desc(total))
 
-  ggplot(data=Tform) +
-    geom_col(mapping=aes(x=Format, y=total)) +
+  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
     labs(x="Format", y="Number of Transactions")
+```
+
+### Transaction Notes
+
+```{r Tnotes}
+  Tnotes <- select(Trans, TransDateTime, Notes) %>% filter(!is.na(Notes))
+  
+  kable(Tnotes, format="latex")
 ```
 
