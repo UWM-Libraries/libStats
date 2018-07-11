@@ -24,6 +24,14 @@ fname1 <- paste(f_out, "/", "Statbot_", sep="")
 fname2 <- paste("_", startDate, "to", endDate, sep="")
 
 
+## Create library report
+
+render("LibStats_report_library.Rmd", params=list(
+  fpath=f_in, periodStart=period_Start, periodEnd=period_End),
+  output_file = paste(fname1, "GoldaMeir", fname2, ".pdf", sep=""))
+
+
+
 ## Create department reports
 
 deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library", 
