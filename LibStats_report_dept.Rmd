@@ -70,7 +70,7 @@ __Total `r depart` consultations = `r count(Cons)`__
 
 ```{r Cparams}
   CstaffName <- group_by(Cons, StaffName) %>% mutate(total=n()) %>% 
-    select(StaffName, total) %>% unique() %>% arrange(desc(total))
+    select(StaffName, total) %>% unique() %>% arrange(desc(total), StaffName)
   
   kable(CstaffName, format="latex")
 ```
@@ -145,7 +145,7 @@ __Total `r depart` presentations = `r count(Pres)`__
 
 ```{r Pparams}
   PstaffName <- group_by(Pres, StaffName) %>% mutate(total=n()) %>% 
-    select(StaffName, total) %>% unique() %>% arrange(desc(total))
+    select(StaffName, total) %>% unique() %>% arrange(desc(total), StaffName)
   
   kable(PstaffName, format="latex")
 ```
@@ -177,7 +177,7 @@ _Departments listed if they had 2 or more presentations_
 ```{r Pinstruction}
   Pinstruction <- group_by(Pres, Department) %>% mutate(total=n()) %>% 
     select(Department, total) %>% unique() %>% 
-    filter(total > 1 & Department != "NA") %>% arrange(desc(total))
+    filter(total > 1 & Department != "NA") %>% arrange(desc(total), Department)
 
   kable(Pinstruction, format="latex")
 ```
@@ -241,7 +241,7 @@ __Total `r depart` transactions = `r count(Trans)`__
 
 ```{r Tparams}
   TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
-    select(StaffName, total) %>% unique() %>% arrange(desc(total))
+    select(StaffName, total) %>% unique() %>% arrange(desc(total), StaffName)
   
   kable(TstaffName, format="latex")
 
@@ -266,7 +266,7 @@ _Departments listed if they had 2 or more transactions_
 ```{r Tinstruction}
   Tinstruction <- group_by(Trans, Department) %>% mutate(total=n()) %>% 
     select(Department, total) %>% unique() %>% 
-    filter(total > 1  & Department != "NA") %>% arrange(desc(total))
+    filter(total > 1  & Department != "NA") %>% arrange(desc(total), Department)
 
   kable(Tinstruction, format="latex")
   

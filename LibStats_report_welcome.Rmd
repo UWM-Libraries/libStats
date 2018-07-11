@@ -50,7 +50,7 @@ __Total transactions = `r count(Trans)`__
 
 ```{r Tparams}
   TstaffName <- group_by(Trans, StaffName) %>% mutate(total=n()) %>% 
-    select(StaffName, total) %>% unique() %>% arrange(desc(total))
+    select(StaffName, total) %>% unique() %>% arrange(desc(total), StaffName)
   
   kable(TstaffName, format="latex")
 

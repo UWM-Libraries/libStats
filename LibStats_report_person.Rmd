@@ -116,7 +116,7 @@ __Total `r pers` consultations = `r count(Cons)`__
 ### Consultation Notes
 
 ```{r Cnotes}
-  Cnotes <- select(Cons, ConsDate, Notes) %>% filter(!is.na(Notes))
+  Cnotes <- select(Cons, ConsDate, Notes) %>% filter(!is.na(Notes)) %>% arrange(ConsDate)
   
   kable(Cnotes, format="latex")
 ```
@@ -185,7 +185,7 @@ __Total `r pers` presentations = `r count(Pres)`__
 ### Presentation Notes
 
 ```{r Pnotes}
-  Pnotes <- select(Pres, PresDateTime, Notes) %>% filter(!is.na(Notes))
+  Pnotes <- select(Pres, PresDateTime, Notes) %>% filter(!is.na(Notes)) %>% arrange(PresDateTime)
   
   kable(Pnotes, format="latex")
 ```
@@ -256,7 +256,7 @@ in each category may excede the total number of transactions_
 ### Transaction Notes
 
 ```{r Tnotes}
-  Tnotes <- select(Trans, TransDateTime, Notes) %>% filter(!is.na(Notes))
+  Tnotes <- select(Trans, TransDateTime, Notes) %>% filter(!is.na(Notes)) %>% arrange(TransDateTime)
   
   kable(Tnotes, format="latex")
 ```
