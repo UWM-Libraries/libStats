@@ -52,6 +52,23 @@ library(knitr)
   Trans <- filter(Trans_all, Trans_all$TransDateTime>=pStart & 
                     Trans_all$TransDateTime<=pEnd)
   Trans <- add_column(Trans, Week=week(Trans$TransDateTime))
+  
+    
+  ## Load and process Welcome Desk data
+  
+  finput <- paste(params$fpath, "WD.csv", sep="/")
+  WD_all <- read_csv(finput)
+  
+  WD <- filter(WD_all, WD_all$WDDateTime>=pStart & 
+                    WD_all$WDDateTime<=pEnd)
+  WD <- add_column(WD, Department="NA", Course="NA", Faculty="NA", 
+                   Location="Welcome Desk", after="Reference")
+  WD <- add_column(WD, Week=week(WD$WDDateTime))
+  WD <- rename(WD, TransDateTime=WDDateTime)
+  
+  # Add Welcome Desk data to Transactional data
+  
+  Trans <- bind_rows(Trans, WD)
 ```
 
 ### Golda Meir Library
