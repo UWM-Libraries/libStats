@@ -65,6 +65,78 @@ library(knitr)
 
 ### Time period: `r pStart` to `r pEnd`
 
+
+## Transactions
+
+__Total `r pers` transactions = `r count(Trans)`__
+
+### Transaction Patron Status
+
+```{r TuserType}
+  TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
+    select(UserStatus, total) %>% unique() %>% arrange(desc(total))
+  
+  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
+    labs(x="User Status", y="Number of Transactions")
+```
+
+### Transaction Courses
+
+```{r Tinstruction}
+  Tinstruction <- group_by(Trans, Department, Course) %>% mutate(total=n()) %>% 
+    select(Department, Course, total) %>% unique() %>% filter(Department != "NA") %>%
+    arrange(Department, Course)
+
+  kable(Tinstruction, format="latex")
+  
+```
+
+### Transaction Type
+
+_Transactions can be coded as multiple types, meaning the sum of the totals
+in each category may exceed the total number of transactions_
+
+```{r Ttype}
+  Ttype_type <- bind_rows(tibble(Ttype="Directional"), tibble(Ttype="Informational"),
+                              tibble(Ttype="Referral"), tibble(Ttype="Reference"))
+  Ttype_total <- bind_rows(count(filter(Trans,Directional==TRUE)), 
+                               count(filter(Trans, Informational==TRUE)),
+                               count(filter(Trans, Referral==TRUE)),
+                               count(filter(Trans, Reference==TRUE)))
+  Ttype <- bind_cols(Ttype_type, Ttype_total)
+  
+  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
+    geom_col() +
+    geom_text() +
+    labs(x="Type", y="Number of Transactions")
+```
+
+### Transaction Format
+
+```{r Tform}
+  Tform <- group_by(Trans, Format) %>% mutate(total=n()) %>% 
+    select(Format, total) %>% unique() %>% 
+    filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
+    arrange(desc(total))
+
+  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() +
+    geom_text() +
+    labs(x="Format", y="Number of Transactions")
+```
+
+### Transaction Notes
+
+```{r Tnotes}
+  Tnotes <- select(Trans, TransDateTime, Notes) %>% filter(!is.na(Notes)) %>% arrange(TransDateTime)
+  
+  kable(Tnotes, format="latex")
+```
+
+
+
 ## Consultations
 
 __Total `r pers` consultations = `r count(Cons)`__
@@ -189,75 +261,3 @@ __Total `r pers` presentations = `r count(Pres)`__
   
   kable(Pnotes, format="latex")
 ```
-
-
-
-## Transactions
-
-__Total `r pers` transactions = `r count(Trans)`__
-
-### Transaction Patron Status
-
-```{r TuserType}
-  TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
-    select(UserStatus, total) %>% unique() %>% arrange(desc(total))
-  
-  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
-    geom_col() +
-    geom_text() +
-    labs(x="User Status", y="Number of Transactions")
-```
-
-### Transaction Courses
-
-```{r Tinstruction}
-  Tinstruction <- group_by(Trans, Department, Course) %>% mutate(total=n()) %>% 
-    select(Department, Course, total) %>% unique() %>% filter(Department != "NA") %>%
-    arrange(Department, Course)
-
-  kable(Tinstruction, format="latex")
-  
-```
-
-### Transaction Type
-
-_Transactions can be coded as multiple types, meaning the sum of the totals
-in each category may excede the total number of transactions_
-
-```{r Ttype}
-  Ttype_type <- bind_rows(tibble(Ttype="Directional"), tibble(Ttype="Informational"),
-                              tibble(Ttype="Referral"), tibble(Ttype="Reference"))
-  Ttype_total <- bind_rows(count(filter(Trans,Directional==TRUE)), 
-                               count(filter(Trans, Informational==TRUE)),
-                               count(filter(Trans, Referral==TRUE)),
-                               count(filter(Trans, Reference==TRUE)))
-  Ttype <- bind_cols(Ttype_type, Ttype_total)
-  
-  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
-    geom_col() +
-    geom_text() +
-    labs(x="Type", y="Number of Transactions")
-```
-
-### Transaction Format
-
-```{r Tform}
-  Tform <- group_by(Trans, Format) %>% mutate(total=n()) %>% 
-    select(Format, total) %>% unique() %>% 
-    filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
-    arrange(desc(total))
-
-  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() +
-    geom_text() +
-    labs(x="Format", y="Number of Transactions")
-```
-
-### Transaction Notes
-
-```{r Tnotes}
-  Tnotes <- select(Trans, TransDateTime, Notes) %>% filter(!is.na(Notes)) %>% arrange(TransDateTime)
-  
-  kable(Tnotes, format="latex")
-```
-

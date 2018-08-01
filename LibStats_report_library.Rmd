@@ -2,8 +2,8 @@
 title: "Golda Meir Library Statistics Report"
 params:
   fpath: C:/Users/briney/Documents/JobDocs/LibStats/Reports/data
-  periodStart: 2018-01-01 00:00:00
-  periodEnd: 2018-05-31 23:59:59
+  periodStart: 2017-07-01 00:00:00
+  periodEnd: 2018-06-30 23:59:59
 output:
   pdf_document: 
     fig_width: 7
@@ -57,6 +57,94 @@ library(knitr)
 ### Golda Meir Library
 
 ### Time period: `r pStart` to `r pEnd`
+
+
+## Transactions
+
+__Total `r depart` transactions = `r count(Trans)`__
+
+### Transactions by Library Division
+
+```{r TstaffDept}
+  TstaffDept <- group_by(Trans, StaffDept) %>% mutate(total=n()) %>% 
+    select(StaffDept, total) %>% unique() %>% arrange(desc(total), StaffDept)
+  
+  kable(TstaffDept, format="latex")
+
+```
+
+### Transaction Patron Status
+
+```{r TuserType}
+  TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
+    select(UserStatus, total) %>% unique() %>% arrange(desc(total))
+  
+  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="User Status", y="Number of Transactions")
+```
+
+### Transaction Course Departments
+
+_Departments listed if they had 2 or more transactions_
+
+```{r Tinstruction}
+  Tinstruction <- group_by(Trans, Department) %>% mutate(total=n()) %>% 
+    select(Department, total) %>% unique() %>% 
+    filter(total > 1  & Department != "NA") %>% arrange(desc(total), Department)
+
+  kable(Tinstruction, format="latex")
+  
+```
+
+### Transaction Type
+
+_Transactions can be coded as multiple types, meaning the sum of the totals
+in each category may exceed the total number of transactions_
+
+```{r Ttype}
+  Ttype_type <- bind_rows(tibble(Ttype="Directional"), tibble(Ttype="Informational"),
+                              tibble(Ttype="Referral"), tibble(Ttype="Reference"))
+  Ttype_total <- bind_rows(count(filter(Trans,Directional==TRUE)), 
+                               count(filter(Trans, Informational==TRUE)),
+                               count(filter(Trans, Referral==TRUE)),
+                               count(filter(Trans, Reference==TRUE)))
+  Ttype <- bind_cols(Ttype_type, Ttype_total)
+  
+  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Type", y="Number of Transactions")
+```
+
+### Transaction Format
+
+```{r Tform}
+  Tform <- group_by(Trans, Format) %>% mutate(total=n()) %>% 
+    select(Format, total) %>% unique() %>% 
+    filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
+    arrange(desc(total))
+
+  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Format", y="Number of Transactions")
+```
+
+### Transactions by Week of the Year
+
+```{r TweekNum}
+  TweekNum <- group_by(Trans, Week) %>% mutate(total=n()) %>% 
+    select(Week, total) %>% unique() %>% arrange(Week)
+
+  ggplot(data=TweekNum, mapping=aes(x=Week, y=total, label=total)) +
+    geom_col() + 
+    geom_text() +
+    labs(x="Week of the Year", y="Number of Transactions")
+```
+
+
 
 ## Consultations
 
@@ -225,91 +313,4 @@ _Departments listed if they had 2 or more presentations_
     geom_col() + 
     geom_text() +
     labs(x="Week of the Year", y="Number of Presentations")
-```
-
-
-
-## Transactions
-
-__Total `r depart` transactions = `r count(Trans)`__
-
-### Transactions by Library Division
-
-```{r TstaffDept}
-  TstaffDept <- group_by(Trans, StaffDept) %>% mutate(total=n()) %>% 
-    select(StaffDept, total) %>% unique() %>% arrange(desc(total), StaffDept)
-  
-  kable(TstaffDept, format="latex")
-
-```
-
-### Transaction Patron Status
-
-```{r TuserType}
-  TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
-    select(UserStatus, total) %>% unique() %>% arrange(desc(total))
-  
-  ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
-    geom_col() + 
-    geom_text() +
-    labs(x="User Status", y="Number of Transactions")
-```
-
-### Transaction Course Departments
-
-_Departments listed if they had 2 or more transactions_
-
-```{r Tinstruction}
-  Tinstruction <- group_by(Trans, Department) %>% mutate(total=n()) %>% 
-    select(Department, total) %>% unique() %>% 
-    filter(total > 1  & Department != "NA") %>% arrange(desc(total), Department)
-
-  kable(Tinstruction, format="latex")
-  
-```
-
-### Transaction Type
-
-_Transactions can be coded as multiple types, meaning the sum of the totals
-in each category may excede the total number of transactions_
-
-```{r Ttype}
-  Ttype_type <- bind_rows(tibble(Ttype="Directional"), tibble(Ttype="Informational"),
-                              tibble(Ttype="Referral"), tibble(Ttype="Reference"))
-  Ttype_total <- bind_rows(count(filter(Trans,Directional==TRUE)), 
-                               count(filter(Trans, Informational==TRUE)),
-                               count(filter(Trans, Referral==TRUE)),
-                               count(filter(Trans, Reference==TRUE)))
-  Ttype <- bind_cols(Ttype_type, Ttype_total)
-  
-  ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
-    geom_col() + 
-    geom_text() +
-    labs(x="Type", y="Number of Transactions")
-```
-
-### Transaction Format
-
-```{r Tform}
-  Tform <- group_by(Trans, Format) %>% mutate(total=n()) %>% 
-    select(Format, total) %>% unique() %>% 
-    filter(Format=="in person/face to face" | Format=="on the phone" | Format=="over e-mail") %>% 
-    arrange(desc(total))
-
-  ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() + 
-    geom_text() +
-    labs(x="Format", y="Number of Transactions")
-```
-
-### Transactions by Week of the Year
-
-```{r TweekNum}
-  TweekNum <- group_by(Trans, Week) %>% mutate(total=n()) %>% 
-    select(Week, total) %>% unique() %>% arrange(Week)
-
-  ggplot(data=TweekNum, mapping=aes(x=Week, y=total, label=total)) +
-    geom_col() + 
-    geom_text() +
-    labs(x="Week of the Year", y="Number of Transactions")
 ```
