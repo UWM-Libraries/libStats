@@ -141,6 +141,8 @@ in each category may exceed the total number of transactions_
 
 __Total `r pers` consultations = `r count(Cons)`__
 
+__Total number of patrons in consultations = `r tally(Cons, Count)` (average = `r as.integer(tally(Cons, Count)/count(Cons))`)__
+
 ### Consultation Patron Status
 
 ```{r CuserType}
@@ -199,6 +201,9 @@ __Total `r pers` consultations = `r count(Cons)`__
 
 __Total `r pers` presentations = `r count(Pres)`__
 
+__Total number of patrons in presentations = `r tally(Pres, Count)` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
+
+__Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
 
 ### Presentation Patron Status
 
