@@ -1,9 +1,9 @@
 ---
-title: "Departmental Statistics Report"
+title: "Research Help Desk Statistics Report"
 params:
   fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
-  periodStart: "2018-01-01 00:00:00"
-  periodEnd: "2018-05-30 23:59:59"
+  periodStart: "2018-01-22 00:00:00"
+  periodEnd: "2018-05-20 23:59:59"
 output:
   pdf_document: 
     fig_width: 7
@@ -62,7 +62,7 @@ __Total Research Help Desk transactions = `r count(Trans)`__
 
 ```
 
-### Transaction User Status
+### Transaction Patron Status
 
 ```{r TuserType}
   TuserTypes <- group_by(Trans, UserStatus) %>% mutate(total=n()) %>% 
@@ -74,7 +74,7 @@ __Total Research Help Desk transactions = `r count(Trans)`__
     labs(x="User Status", y="Number of Transactions")
 ```
 
-### Transaction User Departments
+### Transaction Course Departments
 
 _Departments listed if they had 2 or more transactions_
 
