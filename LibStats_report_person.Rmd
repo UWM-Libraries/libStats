@@ -39,8 +39,7 @@ library(knitr)
   
   Cons <- filter(Cons_all, Cons_all$StaffName==pers & Cons_all$ConsDate>=pStart & 
                    Cons_all$ConsDate<=pEnd)
-  Cons <- add_column(Cons, Week=week(Cons$ConsDate))
-  
+
   ## Load presentation data
   
   finput <- paste(params$fpath, "Pres.csv", sep="/")
@@ -48,8 +47,7 @@ library(knitr)
   
   Pres <- filter(Pres_all, Pres_all$StaffName==pers & Pres_all$PresDateTime>=pStart & 
                    Pres_all$PresDateTime<=pEnd)
-  Pres <- add_column(Pres, Week=week(Pres$PresDateTime))
-  
+
   ## Load transaction data
   
   finput <- paste(params$fpath, "Trans.csv", sep="/")
@@ -58,7 +56,6 @@ library(knitr)
   Trans <- filter(Trans_all, Trans_all$StaffName==pers &
                     Trans_all$TransDateTime>=pStart & 
                     Trans_all$TransDateTime<=pEnd)
-  Trans <- add_column(Trans, Week=week(Trans$TransDateTime))
 ```
 
 ### Person: `r pers`
