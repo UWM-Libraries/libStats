@@ -44,7 +44,7 @@ How to run this code from scratch:
 			(This will run the cleanup code)
 		Check that new CSV files were added to the designated output folder
 		
-	Generate report
+	Generate reports as a batch
 		Open RStudio software
 		Open "LibStats_report_batch.R" file
 		
@@ -57,3 +57,14 @@ How to run this code from scratch:
 		With cursor in "LibStats_report_batch.R" file, hit Ctrl+Shift+Return
 			(This will run the reporting code)
 		Check that new report files were added to the designated output folder
+		
+	Generate an individual report
+		Open RStudio software
+		Open "LibStats_report_???.Rmd" file
+			(??? = ARCLstats, dept, library, person, RHD, stories, welcome)
+		
+		Use dropdown next to "Knit" button above code window and select "Knit with Parameters..."
+		Select file path, dates, and relevant department/person
+		Click "Knit"
+		
+		Note: this saves the report next to the code files and names the report the same as the .Rmd file name.
