@@ -53,7 +53,7 @@ for (i in 1:dim(deptName)[2]) {
 AGSLcol <- read_csv(paste(f_in, "AGSL.csv", sep="/"))
 AGSL <- filter(AGSLcol, Date>=period_Start & 
                  Date<=period_End)
-write_csv(AGSL, paste(fname1, "AGSL", fname2, ".csv", sep=""))
+write_csv(AGSL, paste(fname1, "AGSL_collection", fname2, ".csv", sep=""))
 
 
 # Create RHD and Welcome Desk reports
