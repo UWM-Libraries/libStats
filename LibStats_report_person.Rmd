@@ -74,7 +74,9 @@ __Total `r pers` transactions = `r count(Trans)`__
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
   ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="User Status", y="Number of Transactions")
 ```
@@ -105,7 +107,9 @@ in each category may exceed the total number of transactions_
   Ttype <- bind_cols(Ttype_type, Ttype_total)
   
   ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Type", y="Number of Transactions")
 ```
@@ -119,7 +123,9 @@ in each category may exceed the total number of transactions_
     arrange(desc(total))
 
   ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Format", y="Number of Transactions")
 ```
@@ -147,7 +153,9 @@ __Total number of patrons in consultations = `r tally(Cons, Count)` (average = `
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
   ggplot(data=CuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="User Status", y="Number of Consultations")
 ```
@@ -179,7 +187,9 @@ __Total number of patrons in consultations = `r tally(Cons, Count)` (average = `
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
   ggplot(data=Cform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Format", y="Number of Consultations")
 ```
@@ -217,7 +227,9 @@ __Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.int
   PuserType <- bind_cols(PuserType_type, PuserType_total)
   
   ggplot(PuserType, mapping=aes(x=UserType, y=n, label=n)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="User Type", y="Number of Presentations")
 ```
@@ -239,7 +251,9 @@ __Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.int
     select(PresType, total) %>% unique() %>% arrange(desc(total))
 
   ggplot(data=Ptype, mapping=aes(x=PresType, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Presentation Type", y="Number of Presentations")
 ```
@@ -251,7 +265,9 @@ __Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.int
     select(Format, total) %>% unique() %>% arrange(desc(total))
 
   ggplot(data=Pform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Format", y="Number of Presentations")
 ```

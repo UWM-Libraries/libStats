@@ -63,7 +63,9 @@ __Total transactions = `r count(Trans)`__
     select(UserStatus, total) %>% unique() %>% arrange(desc(total))
   
   ggplot(data=TuserTypes, mapping=aes(x=UserStatus, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="User Status", y="Number of Transactions")
 ```
@@ -83,7 +85,9 @@ in each category may excede the total number of transactions_
   Ttype <- bind_cols(Ttype_type, Ttype_total)
   
   ggplot(data=Ttype, mapping=aes(x=Ttype, y=n, label=n)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Type", y="Number of Transactions")
 ```
@@ -97,7 +101,9 @@ in each category may excede the total number of transactions_
     arrange(desc(total))
 
   ggplot(data=Tform, mapping=aes(x=Format, y=total, label=total)) +
-    geom_col() +
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") +
     geom_text() +
     labs(x="Format", y="Number of Transactions")
 ```
@@ -109,7 +115,9 @@ in each category may excede the total number of transactions_
     select(Week, total) %>% unique() %>% arrange(Week)
 
   ggplot(data=TweekNum, mapping=aes(x=Week, y=total, label=total)) +
-    geom_col() + 
+    theme_light() + 
+    theme(legend.position="none") +
+    geom_col(fill="#999999") + 
     geom_text() +
     labs(x="Week of the Year", y="Number of Transactions")
 ```
