@@ -285,13 +285,19 @@ library(lubridate)
   
   
   
-## Build Dept table
-  Dept_Cons <- tibble(EventID=Cons$EventID, StaffDept=Cons$StaffDept, StaffName=Cons$StaffName, ServiceType="consultation",
-                            Department=Cons$Department, Course=Cons$Course, Section="", Faculty=Cons$Faculty)
-  Dept_Pres <- tibble(EventID=Pres$EventID, StaffDept=Pres$StaffDept, StaffName=Pres$StaffName, ServiceType="presentation",
-                      Department=Pres$Department, Course=Pres$Course, Section=Pres$Section, Faculty=Pres$Faculty)
-  Dept_Trans <- tibble(EventID=Trans$EventID, StaffDept=Trans$StaffDept, StaffName=Trans$StaffName, ServiceType="transaction",
-                      Department=Trans$Department, Course=Trans$Course, Section="", Faculty=Trans$Faculty)
+## Build Dept table of course information
+  Dept_Cons <- tibble(EventID=Cons$EventID, DateTime=Cons$ConsDate, StaffDept=Cons$StaffDept, StaffName=Cons$StaffName,
+                      ServiceType="consultation", Format=Cons$Format,
+                      Department=Cons$Department, Course=Cons$Course, Section="", Faculty=Cons$Faculty,
+                      Count=as.character(Cons$Count), Length=as.character(Cons$Length))
+  Dept_Pres <- tibble(EventID=Pres$EventID, DateTime= Pres$PresDateTime, StaffDept=Pres$StaffDept, StaffName=Pres$StaffName, 
+                      ServiceType="presentation", Format=Pres$Format,
+                      Department=Pres$Department, Course=Pres$Course, Section=Pres$Section, Faculty=Pres$Faculty,
+                      Count=as.character(Pres$Count), Length=as.character(Pres$Length))
+  Dept_Trans <- tibble(EventID=Trans$EventID, DateTime=Trans$TransDateTime, StaffDept=Trans$StaffDept, StaffName=Trans$StaffName,
+                      ServiceType="transaction", Format=Trans$Format,
+                      Department=Trans$Department, Course=Trans$Course, Section="", Faculty=Trans$Faculty,
+                      Count="", Length="")
 
   Dept_unfiltered <- bind_rows(Dept_Cons, Dept_Pres, Dept_Trans)
   
@@ -299,5 +305,5 @@ library(lubridate)
   
 
   ## Write out Dept
-  foutput <- paste(fpath, "Dept.csv", sep="/")
+  foutput <- paste(fpath, "Courses.csv", sep="/")
   write_csv(Dept, foutput)
