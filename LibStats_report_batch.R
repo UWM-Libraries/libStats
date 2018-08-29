@@ -17,6 +17,18 @@ period_Start <- "2018-01-01 00:00:00"
 period_End <- "2018-05-30 23:59:59"
 
 
+## Departments and individuals needing semesterly reports
+## "deptName" is name as appears in the data, "deptFName" is file name friendly version
+
+deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library", 
+                   "Digital Humanities Lab", "Special Collections", "User Services")
+deptFName <- tibble("AGSL", "Archives", "CurriculumMusic", 
+                    "DHLab", "SpecialCollections", "UserServices")
+persName <- tibble("briney", "ganski", "kabina", "kbowes", "kristinw", "lkopecky", 
+                   "mathiasm", "nbungert", "skorolev", "thornto4", "wagecg")
+
+
+
 ## Edit strings to add to output file name
 
 startDate <- paste(substr(period_Start, 1,4),substr(period_Start, 6,7),substr(period_Start, 9,10),sep="")
@@ -35,11 +47,6 @@ render("LibStats_report_library.Rmd", params=list(
 
 
 ## Create department reports
-
-deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library", 
-                   "Digital Humanities Lab", "Special Collections", "User Services")
-deptFName <- tibble("AGSL", "Archives", "CurriculumMusic", 
-                    "DHLab", "SpecialCollections", "UserServices")
 
 for (i in 1:dim(deptName)[2]) {
   render("LibStats_report_dept.Rmd", params=list(
@@ -68,9 +75,6 @@ render("LibStats_report_welcome.Rmd", params=list(
 
 
 ## Create personal reports
-
-persName <- tibble("ganski", "nbungert", "kristinw", "lkopecky", "kbowes", "kabina", 
-                   "wadecg", "mathiasm", "thornto4", "briney", "skorolev")
 
 for (i in 1:dim(persName)[2]) {
   render("LibStats_report_person.Rmd", params=list(
@@ -144,3 +148,11 @@ for (i in 1:dim(persName)[2]) {
   foutput <- paste(fname1, persName[i], "_Trans", fname2, ".csv", sep="")
   write_csv(Trans_temp, foutput)
 }
+
+## Course file
+
+finput <- paste(f_in, "Courses.csv", sep="/")
+Courses_raw <- read_csv(finput)
+Courses <- filter(Courses_raw, Courses_raw$DateTime>=period_Start & Courses_raw$DateTime<=period_End)
+foutput <- paste(fname1, "Courses", fname2, ".csv", sep="")
+write_csv(Courses, foutput)
