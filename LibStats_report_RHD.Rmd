@@ -34,7 +34,7 @@ library(knitr)
   finput <- paste(params$fpath, "Trans.csv", sep="/")
   Trans_all <- read_csv(finput)
   
-  Trans <- filter(Trans_all, Trans_all$Location=="Research Help Desk" &
+  Trans <- filter(Trans_all, Trans_all$StaffDept=="Research Help Desk" &
                     Trans_all$TransDateTime>=pStart & 
                     Trans_all$TransDateTime<=pEnd)
   Trans <- add_column(Trans, Week=week(Trans$TransDateTime))

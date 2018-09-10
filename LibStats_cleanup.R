@@ -192,6 +192,8 @@ library(lubridate)
       if(!is.na(libTrans$TransTime[i]) & !str_detect(libTrans$TransTime[i], ":")) libTrans$TransTime[i] <- "12:00 AM"
       DateTime$DT[i] <- as.character(mdy_hm(paste(libTrans$TransDate[i], libTrans$TransTime[i], sep=" ")))
     }
+    
+    if(libTrans$TransLoc == "Research Help Desk") libTrans$StaffDept = "Research Help Desk"
   }
   
   ## Build Trans
