@@ -25,7 +25,7 @@ deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library",
 deptFName <- tibble("AGSL", "Archives", "CurriculumMusic", 
                     "DHLab", "SpecialCollections", "UserServices")
 persName <- tibble("briney", "ganski", "kabina", "kbowes", "kristinw", "lkopecky", 
-                   "mathiasm", "nbungert", "skorolev", "thornto4", "wagecg")
+                   "mathiasm", "nbungert", "skorolev", "thornto4", "wadecg")
 
 
 

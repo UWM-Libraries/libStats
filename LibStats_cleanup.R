@@ -193,7 +193,7 @@ library(lubridate)
       DateTime$DT[i] <- as.character(mdy_hm(paste(libTrans$TransDate[i], libTrans$TransTime[i], sep=" ")))
     }
     
-    if(libTrans$TransLoc == "Research Help Desk") libTrans$StaffDept = "Research Help Desk"
+    if(libTrans$TransLoc[i] == "Research Help Desk") libTrans$StaffDept[i] <- "Research Help Desk"
   }
   
   ## Build Trans
