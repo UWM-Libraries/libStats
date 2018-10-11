@@ -60,11 +60,11 @@ library(knitr)
   
   WD <- filter(WD_all, WD_all$WDDateTime>=pStart & 
                     WD_all$WDDateTime<=pEnd)
-  WD <- add_column(WD, Department="NA", Course="NA", Faculty="NA", 
+  WD <- add_column(WD, Department="NA", Course=as.integer(""), Faculty="NA", 
                    Location="Welcome Desk", after="Reference")
   WD <- add_column(WD, Week=week(WD$WDDateTime))
   WD <- rename(WD, TransDateTime=WDDateTime)
-  
+
   # Add Welcome Desk data to Transactional data
   
   Trans <- bind_rows(Trans, WD)
