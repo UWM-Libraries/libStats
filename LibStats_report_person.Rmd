@@ -1,10 +1,10 @@
 ---
 title: "Personal Statistics Report"
 params:
-  fpath: "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
+  fpath: "C:/Users/briney/Documents/LibStats/reports/data"
   periodStart: "2018-01-01 00:00:00"
   periodEnd: "2018-05-30 23:59:59"
-  person: "briney" 
+  person: "nbungert" 
 output:
   pdf_document: 
     fig_width: 7
@@ -208,9 +208,9 @@ __Total number of patrons in consultations = `r tally(Cons, Count)` (average = `
 
 __Total `r pers` presentations = `r count(Pres)`__
 
-__Total number of patrons in presentations = `r tally(Pres, Count)` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
+__Total number of patrons in presentations = `r as.integer(tally(Pres, Count))` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
 
-__Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
+__Total presentation time = `r as.integer(tally(Pres, Length))` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
 
 ### Presentation Patron Status
 

@@ -1,7 +1,7 @@
 ---
 title: "Golda Meir Library Statistics Report"
 params:
-  fpath: C:/Users/briney/Documents/JobDocs/LibStats/Reports/data
+  fpath: C:/Users/briney/Documents/LibStats/reports/data
   periodStart: 2018-01-01 00:00:00
   periodEnd: 2018-05-30 23:59:59
 output:
@@ -257,9 +257,9 @@ _Departments listed if they had 2 or more consultations_
 
 __Total `r depart` presentations = `r count(Pres)`__
 
-__Total number of patrons in presentations = `r tally(Pres, Count)` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
+__Total number of patrons in presentations = `r as.integer(tally(Pres, Count))` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
 
-__Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
+__Total presentation time = `r as.integer(tally(Pres, Length))` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
 
 ### Presentations by Library Division
 

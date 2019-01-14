@@ -244,9 +244,9 @@ _Departments listed if they had 2 or more consultations_
 
 __Total `r depart` presentations = `r count(Pres)`__
 
-__Total number of patrons in presentations = `r tally(Pres, Count)` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
+__Total number of patrons in presentations = `r as.integer(tally(Pres, Count))` (average = `r as.integer(tally(Pres, Count)/count(Pres))`)__
 
-__Total presentation time = `r tally(Pres, Length)` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
+__Total presentation time = `r as.integer(tally(Pres, Length))` minutes (average = `r as.integer(tally(Pres, Length)/count(Pres))` minutes)__
 
 ### Staff Presentations
 
