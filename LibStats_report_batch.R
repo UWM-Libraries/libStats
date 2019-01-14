@@ -11,8 +11,8 @@ library(lubridate)
 
 ## CHANGE THESE PARAMETERS AS NECESSARY (KEEP DATE/TIME FORMATTING AS YYYY-MM-DD HH:MM:SS)
 
-f_in <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
-f_out <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/reports"
+f_in <- "C:/Users/briney/Documents/LibStats/reports/data"
+f_out <- "C:/Users/briney/Documents/LibStats/reports/reports"
 period_Start <- "2018-01-01 00:00:00"
 period_End <- "2018-12-31 23:59:59"
 
@@ -25,7 +25,9 @@ deptName <- tibble("AGSL", "Archives", "Curriculum Collection / Music Library",
 deptFName <- tibble("AGSL", "Archives", "CurriculumMusic", 
                     "DHLab", "SpecialCollections", "UserServices")
 persName <- tibble("briney", "ganski", "kabina", "kbowes", "kristinw", "lkopecky", 
-                   "mathiasm", "nbungert", "skorolev", "thornto4", "wadecg")
+                   "mathiasm", "nbungert", "skorolev", "thornto4", "wadecg",
+                   "kj2", "aritter", "hanlon", "anye", "hanoszko", "srappel",
+                   "ristic", "sqp", "acope", "bidney")
 
 
 
