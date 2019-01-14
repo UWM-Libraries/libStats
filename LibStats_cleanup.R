@@ -13,7 +13,7 @@ library(lubridate)
 ## READ IN LIBSTATS CSV FILE
 
   ## Set file path and input file name -- CHANGE AS NEEDED (direction of slashes matters)**
-  fpath <- "C:/Users/briney/Documents/JobDocs/LibStats/Reports/data"
+  fpath <- "C:/Users/briney/Documents/LibStats/reports/data"
   fname <- "rawData.csv"
   
   
@@ -28,22 +28,30 @@ library(lubridate)
                         "WDFormat", "WDDate_old", "WDDate", "WDTime", "WDStory", "WDNotes", "TransUserStatus", "TransType",
                         "TransDept", "TransCourse_old", "TransFac_old", "TransCourse", "TransFac", "TransLoc", "TransLocOther",
                         "TransFormat", "TransFormatOther", "TransDate_old", "TransDate", "TransTime", "AGSLTransColl",
-                        "TransStory", "TransNotes", "ConsUserStatus", "ConsUserDept", "ConsDept", "ConsCourse_old",
-                        "ConsFac_old", "ConsCourse", "ConsFac", "ConsFormat", "ConsFormatOther", "ConsDate", "ConsLength",
+                        "TransStory", "TransNotes", "ConsUserStatus", "ConsDept", "ConsCourse_old", "ConsFac_old",
+                        "ConsCourse", "ConsFac", "ConsUserDept", "ConsFormat", "ConsFormatOther", "ConsDate", "ConsLength",
                         "ConsCountIs1", "ConsCountOver1", "AGSLConsColl", "ConsStory", "ConsNotes", "PresUserStatus",
                         "PresType", "PresTitle", "PresDept", "PresCourse_old", "PresSect_old", "PresFac_old", "PresCourse",
                         "PresSect", "PresFac", "PresLoc", "PresLocOther", "PresPartner", "PresPartnerName", "PresFormat",
                         "PresDate", "PresTime", "PresLength", "PresCount", "PresStory", "PresNotes", "Q22_old", "Q42_old")
 
   ## Read in raw file (change file path as necessary)
-  libStats_unfiltered <- read_csv(finput, col_names=libStats_variables, skip=3)
+  libStats_unfiltered <- read_csv(finput, col_names=libStats_variables, skip=3,
+    col_types=cols("TransCourse" = col_character(), "TransFac" = col_character(),
+                   "TransStory" = col_character(), "TransNotes" = col_character(),
+                   "ConsCourse" = col_character(), "ConsFac" = col_character(),
+                   "ConsStory"= col_character(), "ConsNotes"= col_character(),
+                   "ConsFormatOther" = col_character(),
+                   "PresCourse" = col_character(), "PresSect" = col_character(), "PresFac" = col_character(),
+                   "PresStory"= col_character(), "PresNotes"= col_character(),
+                   "WDStory" = col_logical(), "WDNotes" = col_logical()))
 
 
   ## Filter out incomplete and test entries
   libStats <- filter(libStats_unfiltered, ResponseType=="IP Address" & StaffName!="test")
 
-
-
+  
+  
   
 
 ## BUILD SUBTABLES
